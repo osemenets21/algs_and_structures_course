@@ -1,44 +1,27 @@
-function mergeSort(arr) {
-  if (arr.length <= 1) {
-    return arr; // базовий випадок: якщо масив має 1 або менше елементів, повертаємо його
-  }
-  
-  const middle = Math.floor(arr.length / 2); // знаходимо середину масиву
-  const left = arr.slice(0, middle); // розділяємо масив на ліву половину
-  const right = arr.slice(middle); // розділяємо масив на праву половину
-  
-  return merge(mergeSort(left), mergeSort(right)); // рекурсивно сортуємо ліву і праву половини та зливаємо їх
-}
+function merge(l, r) {
+    let sorted = []
 
-function merge(left, right) {
-  let result = [];
-  let i = 0;
-  let j = 0;
-  
-  while (i < left.length && j < right.length) {
-    if (left[i] < right[j]) {
-      result.push(left[i]);
-      i++;
-    } else {
-      result.push(right[j]);
-      j++;
+    while (l.length && r.length) {
+        if (l[0] < r[0]) {
+            sorted.push(l.shift())
+        } else {
+            sorted.push(r.shift())
+        }
     }
-  }
-  
-  // додаємо залишки з лівої та правої половин
-  while (i < left.length) {
-    result.push(left[i]);
-    i++;
-  }
-  
-  while (j < right.length) {
-    result.push(right[j]);
-    j++;
-  }
-  
-  return result;
+
+    return [...sorted, ...l, ...r]
 }
 
-const numbers = [5, 2, 8, 1, 4];
-const sortedNumbers = mergeSort(numbers);
-console.log(sortedNumbers); // [1, 2, 4, 5, 8]
+function mergeSort(array) {
+    if (array.length <= 1) return array
+
+    let middle = Math.floor(array.length / 2)
+
+    let leftSide = mergeSort(array.slice(0, middle))
+    let rightSide = mergeSort(array.slice(middle))
+
+    return merge(leftSide, rightSide)
+}
+
+let numbers = [0, 7, 1, 6, 2, 0, 1, 3, 2, 55, 11]
+console.log(mergeSort(numbers))
