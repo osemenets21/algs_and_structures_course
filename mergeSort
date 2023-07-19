@@ -1,0 +1,44 @@
+function mergeSort(arr) {
+  if (arr.length <= 1) {
+    return arr; // базовий випадок: якщо масив має 1 або менше елементів, повертаємо його
+  }
+  
+  const middle = Math.floor(arr.length / 2); // знаходимо середину масиву
+  const left = arr.slice(0, middle); // розділяємо масив на ліву половину
+  const right = arr.slice(middle); // розділяємо масив на праву половину
+  
+  return merge(mergeSort(left), mergeSort(right)); // рекурсивно сортуємо ліву і праву половини та зливаємо їх
+}
+
+function merge(left, right) {
+  let result = [];
+  let i = 0;
+  let j = 0;
+  
+  while (i < left.length && j < right.length) {
+    if (left[i] < right[j]) {
+      result.push(left[i]);
+      i++;
+    } else {
+      result.push(right[j]);
+      j++;
+    }
+  }
+  
+  // додаємо залишки з лівої та правої половин
+  while (i < left.length) {
+    result.push(left[i]);
+    i++;
+  }
+  
+  while (j < right.length) {
+    result.push(right[j]);
+    j++;
+  }
+  
+  return result;
+}
+
+const numbers = [5, 2, 8, 1, 4];
+const sortedNumbers = mergeSort(numbers);
+console.log(sortedNumbers); // [1, 2, 4, 5, 8]
